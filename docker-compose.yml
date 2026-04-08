@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vertice-web-mvp
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    # volumes:
+    #   - ./.env.local:/app/.env.local
+
+  # Futuro Backend IA (Preparado para expansão)
+  # core_api:
+  #   image: python:3.11-slim
+  #   container_name: vertice-core-api
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - db

@@ -1,0 +1,1 @@
+Faz com que o git rastreie esta pasta mesmo vazia, corrigindo o erro do Docker ao copiar /app/public.
