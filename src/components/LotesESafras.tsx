@@ -65,7 +65,7 @@ export default function LotesESafras({ lotes, setLotes }: { lotes: any[], setLot
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-500 flex items-center gap-1.5"><Calendar className="w-4 h-4" /> Plantio</span>
                 <span className="font-semibold text-slate-700">
-                  {lote.dataPlantio ? new Date(lote.dataPlantio).toLocaleDateString('pt-BR') : 'Sem data'}
+                  {mounted && lote.dataPlantio ? new Date(lote.dataPlantio).toLocaleDateString('pt-BR') : '---'}
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm">

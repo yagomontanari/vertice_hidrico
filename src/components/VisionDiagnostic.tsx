@@ -2,6 +2,12 @@ import React from 'react';
 import { Camera, Bot } from 'lucide-react';
 
 export default function VisionDiagnostic({ history }: { history: any[] }) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="flex flex-col h-full animate-in fade-in duration-500">
       <div className="flex justify-between items-start mb-8">
@@ -30,7 +36,7 @@ export default function VisionDiagnostic({ history }: { history: any[] }) {
               <div className="flex justify-between items-center mb-4">
                 <span className={`${item.colors.badgeBg} ${item.colors.badgeText} text-xs font-bold px-2 py-1 rounded`}>{item.status}</span>
                 <span className="text-xs text-slate-500 font-medium">
-                  {new Date(item.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                  {mounted ? new Date(item.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '--:--'}
                 </span>
               </div>
               

@@ -86,9 +86,11 @@ export default function Dashboard({
   const [showResult, setShowResult] = useState(false)
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<any>(null)
+  const [mounted, setMounted] = useState(false)
   const [selectedLoteId, setSelectedLoteId] = useState(lotes && lotes.length > 0 ? lotes[0].id : '')
 
   useEffect(() => {
+    setMounted(true)
     if (!selectedLoteId && lotes && lotes.length > 0) {
       setSelectedLoteId(lotes[0].id)
     }
@@ -327,7 +329,9 @@ export default function Dashboard({
                   <div>
                     <h4 className="text-sm font-semibold text-vertice-text">{log.title}</h4>
                     <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                      <span className="font-medium text-gray-400 mr-1">{getLogTime(log.timeOffset)} -</span>
+                      <span className="font-medium text-gray-400 mr-1">
+                        {mounted ? getLogTime(log.timeOffset) : '--:--'} -
+                      </span>
                       {log.desc}
                     </p>
                   </div>
