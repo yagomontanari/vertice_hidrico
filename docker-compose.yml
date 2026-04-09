@@ -5,14 +5,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: deps
     container_name: vertice-web-mvp
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     restart: unless-stopped
-    # volumes:
-    #   - ./.env.local:/app/.env.local
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
 
   # Futuro Backend IA (Preparado para expansão)
   # core_api:

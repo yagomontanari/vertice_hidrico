@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes scanner {
+  0%, 100% { top: 0%; }
+  50% { top: 100%; }
+}
 body {
   background-color: #F8FAFC;
   color: #1E293B;
