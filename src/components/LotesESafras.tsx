@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { Sprout, Plus, Search, Calendar, Leaf, CheckCircle2 } from 'lucide-react';
 
 export default function LotesESafras({ lotes, setLotes }: { lotes: any[], setLotes: (val: any) => void }) {
+  const [mounted, setMounted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [novoLote, setNovoLote] = useState({ nome: '', dataPlantio: '', safra: 'Verão', status: 'Ativo' });
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
