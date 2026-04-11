@@ -150,7 +150,7 @@ export default function Dashboard({
     <div className="flex flex-col h-full animate-in fade-in duration-500">
       
       {/* Header */}
-      <div className="flex justify-between items-start mb-8">
+      <div className="flex justify-between items-start mb-6">
         <div>
           <h2 className="text-3xl font-bold text-vertice-green tracking-tight">Visão Geral da Estufa Alfa</h2>
           <p className="text-vertice-textLight mt-1 flex items-center gap-2 text-sm">
@@ -164,7 +164,7 @@ export default function Dashboard({
       </div>
 
       {/* Cards de Status (Top Row) */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {/* pH Card */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
           <div className="flex items-start justify-between">
@@ -365,7 +365,7 @@ export default function Dashboard({
         </div>
 
         {/* Painel Direito (Gráfico) */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 lg:col-span-2 flex flex-col">
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 lg:col-span-2 flex flex-col h-full min-h-0">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold flex items-center gap-2 text-vertice-text">
               <Activity className="w-5 h-5 text-blue-500" />
@@ -382,7 +382,7 @@ export default function Dashboard({
             </select>
           </div>
           
-          <div className="flex-1 w-full min-h-[300px] mt-4">
+          <div className="flex-1 w-full min-h-[350px] mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={growthData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
                 <defs>
