@@ -4,6 +4,7 @@ import Sidebar from '@/components/Sidebar'
 import Dashboard from '@/components/Dashboard'
 import VisionDiagnostic from '@/components/VisionDiagnostic'
 import LotesESafras from '@/components/LotesESafras'
+import NutricaoAutomatica from '@/components/NutricaoAutomatica'
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -29,6 +30,9 @@ export default function Home() {
         </div>
         <div style={{ display: activeTab === 'lotes' ? 'block' : 'none' }} className="h-full">
            <LotesESafras lotes={lotes} setLotes={setLotes} />
+        </div>
+        <div style={{ display: activeTab === 'nutricao' ? 'block' : 'none' }}>
+           <NutricaoAutomatica />
         </div>
       </main>
     </div>

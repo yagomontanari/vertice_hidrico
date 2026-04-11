@@ -1,7 +1,32 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { FlaskConical, Activity, Waves, Sprout, BrainCircuit, TestTube2, CheckCircle2, Zap, List, Check, Droplet, AlertTriangle, Thermometer, Bot } from 'lucide-react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-[#1e1e1e] border border-white/10 rounded-lg p-3 shadow-2xl backdrop-blur-md">
+        <p className="text-white font-bold text-xs mb-2 border-b border-white/10 pb-1">{label}</p>
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <div className="w-2.5 h-2.5 bg-[#10b981] rounded-sm"></div>
+            <p className="text-[10px] text-gray-300">
+              <span className="text-white font-medium">Vértice IA (Otimizado):</span> {payload[1].value}g/pé
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2.5 h-2.5 bg-[#94a3b8] rounded-sm opacity-50"></div>
+            <p className="text-[10px] text-gray-400">
+              <span className="text-gray-300 font-medium">Hidroponia Comum:</span> {payload[0].value}g/pé
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 const AI_LOGS = [
   {
@@ -103,13 +128,11 @@ export default function Dashboard({
     const mult = 1 + (seed % 5) * 0.1
 
     return [
-      { day: '0', Ideal: 10 + offset, Real: 10 + offset },
-      { day: '5', Ideal: Math.round(40 * mult) + offset, Real: Math.round(38 * mult) + offset },
-      { day: '10', Ideal: Math.round(90 * mult) + offset, Real: Math.round(85 * mult) + offset },
-      { day: '15', Ideal: Math.round(160 * mult) + offset, Real: Math.round(140 * mult) + offset },
-      { day: '20', Ideal: Math.round(250 * mult) + offset, Real: Math.round(220 * mult) + offset },
-      { day: '25', Ideal: Math.round(320 * mult) + offset, Real: Math.round(300 * mult) + offset },
-      { day: '30', Ideal: Math.round(400 * mult) + offset, Real: Math.round(380 * mult) + offset },
+      { week: 'Sem 1', Ideal: 10 + offset, Real: 10 + offset },
+      { week: 'Sem 2', Ideal: Math.round(40 * mult) + offset, Real: Math.round(65 * mult) + offset },
+      { week: 'Sem 3', Ideal: Math.round(110 * mult) + offset, Real: Math.round(165 * mult) + offset },
+      { week: 'Sem 4', Ideal: Math.round(230 * mult) + offset, Real: Math.round(340 * mult) + offset },
+      { week: 'Sem 5', Ideal: Math.round(400 * mult) + offset, Real: Math.round(580 * mult) + offset },
     ]
   }, [selectedLoteId])
 
@@ -225,17 +248,17 @@ export default function Dashboard({
               Diagnóstico por Imagem (IA)
             </h3>
             {showResult && analysisResult ? (
-              <div className={`${analysisResult.colors.bg} border ${analysisResult.colors.border} rounded-xl p-4`}>
-                <div className="flex justify-between items-start mb-3 gap-3">
-                  <div className="w-full h-[300px] rounded-lg overflow-hidden shrink-0 border border-slate-200 shadow-sm relative bg-slate-100 flex items-center justify-center">
-                    <img src={uploadedImage || "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=400&auto=format&fit=crop"} alt="Análise" className="max-w-full max-h-full object-contain" />
+              <div className={`${analysisResult.colors.bg} border ${analysisResult.colors.border} rounded-xl p-4 w-full`}>
+                <div className="flex flex-col gap-4 mb-3">
+                  <div className="w-full h-[220px] rounded-lg overflow-hidden border border-slate-200 shadow-sm relative bg-slate-100 flex items-center justify-center">
+                    <img src={uploadedImage || "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=400&auto=format&fit=crop"} alt="Análise" className="max-w-full max-h-full object-cover" />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className={`${analysisResult.colors.badgeBg} ${analysisResult.colors.badgeText} text-xs font-bold px-2 py-1 rounded`}>{analysisResult.status}</span>
-                      <span className="text-xs text-slate-500 font-medium">Confiança: {analysisResult.confidence}</span>
+                  <div className="w-full">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className={`${analysisResult.colors.badgeBg} ${analysisResult.colors.badgeText} text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider`}>{analysisResult.status}</span>
+                      <span className="text-[10px] text-slate-500 font-medium">Confiança: {analysisResult.confidence}</span>
                     </div>
-                    <h4 className="font-bold text-slate-800 text-sm mb-1">{analysisResult.anomaly}</h4>
+                    <h4 className="font-bold text-slate-800 text-base mb-1">{analysisResult.anomaly}</h4>
                   </div>
                 </div>
                 <p className="text-xs text-slate-600 mb-3">{analysisResult.desc}</p>
@@ -359,29 +382,57 @@ export default function Dashboard({
             </select>
           </div>
           
-          <div className="flex-1 w-full min-h-[300px]">
+          <div className="flex-1 w-full min-h-[300px] mt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={growthData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+              <AreaChart data={growthData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                <defs>
+                  <linearGradient id="colorReal" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: '#9CA3AF', fontSize: 12}} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#9CA3AF', fontSize: 12}} dx={-10} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ fontSize: '14px', fontWeight: '500' }}
+                <XAxis 
+                  dataKey="week" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: '#9CA3AF', fontSize: 11}} 
+                  dy={10} 
+                  label={{ value: 'Semanas para colheita', position: 'insideBottom', offset: -10, fill: '#9CA3AF', fontSize: 11, fontWeight: 600 }}
                 />
-                {/* Linha Tracejada - Atual */}
-                <Line type="monotone" dataKey="Real" stroke="#10b981" strokeWidth={3} dot={{r: 5, fill: '#10b981', strokeWidth: 2, stroke: '#fff'}} name="Crescimento Real (g)" />
-                {/* Linha Sólida - Ideal */}
-                <Line 
-                  name="Curva Tradicional Esperada"
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: '#9CA3AF', fontSize: 11}} 
+                  dx={-10}
+                  label={{ value: 'Massa por Planta (gramas)', angle: -90, position: 'insideLeft', offset: -20, fill: '#9CA3AF', fontSize: 11, fontWeight: 600 }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                
+                {/* Hidroponia Comum (Dashed Area) */}
+                <Area 
                   type="monotone" 
                   dataKey="Ideal" 
-                  stroke="#d1d5db" 
+                  stroke="#cbd5e1" 
                   strokeWidth={2}
                   strokeDasharray="5 5"
-                  dot={{ fill: '#d1d5db', strokeWidth: 0, r: 4 }}
+                  fill="transparent"
+                  dot={{ fill: '#cbd5e1', strokeWidth: 0, r: 4 }}
+                  name="Hidroponia Comum"
                 />
-              </LineChart>
+
+                {/* Vértice IA (Solid Area) */}
+                <Area 
+                  type="monotone" 
+                  dataKey="Real" 
+                  stroke="#10b981" 
+                  strokeWidth={4} 
+                  fillOpacity={1} 
+                  fill="url(#colorReal)" 
+                  dot={{r: 5, fill: '#10b981', strokeWidth: 2, stroke: '#fff'}} 
+                  name="Vértice IA (Otimizado)" 
+                />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
 
@@ -389,11 +440,11 @@ export default function Dashboard({
           <div className="flex justify-center items-center gap-8 mt-2 pt-4">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[#10b981]"></div>
-              <span className="text-sm text-gray-500 font-medium whitespace-nowrap">Crescimento Real (Otimizado por IA)</span>
+              <span className="text-xs text-gray-500 font-medium whitespace-nowrap">Vértice IA (Otimizado por IA)</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
-              <span className="text-sm text-gray-500 font-medium whitespace-nowrap">Curva Tradicional Esperada</span>
+              <div className="w-3 h-3 rounded-full bg-[#cbd5e1]"></div>
+              <span className="text-xs text-gray-500 font-medium whitespace-nowrap">Hidroponia Comum</span>
             </div>
           </div>
         </div>

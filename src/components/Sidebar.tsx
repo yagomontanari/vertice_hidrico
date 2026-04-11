@@ -13,10 +13,10 @@ export default function Sidebar({ activeTab = 'dashboard', onTabChange = () => {
     { id: 'dashboard', label: 'Painel da IA', icon: AppWindow },
     { id: 'diagnostico', label: 'Diagnóstico Visão', icon: FileText },
     { id: 'lotes', label: 'Lotes e Safras', icon: Sprout },
+    { id: 'nutricao', label: 'Nutrição Automática', icon: Beaker },
   ]
 
   const disabledTabs = [
-    { id: 'nutricao', label: 'Nutrição Automática', icon: Beaker },
   ]
 
   return (
